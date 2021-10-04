@@ -9,7 +9,7 @@ APP_URL = f"https://test-itdop-bot2021.herokuapp.com/{TOKEN}"
 
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
-
+# вапвп
 
 @bot.message_handler(content_types=['text'])
 def bot_message(message):
