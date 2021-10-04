@@ -11,13 +11,17 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 # вапвп
 
+# @bot.message_handler(commands=['start'])
+# def start(message):
+#     bot.send_message("Добро пожаловать!")
+
 @bot.message_handler(content_types=['text'])
 def bot_message(message):
     if message.chat.type == 'private':
         if message.text == 'привет!':
-            bot.send_message('Здаров!')
+            bot.send_message(message.from_user.id,'Здаров!')
         else:
-            bot.send_message("давайте знакомится?!")
+            bot.send_message(message.from_user.id, "давайте знакомится?!")
 
 @server.route('/' + TOKEN, methods=['POST'])
 def get_message():
