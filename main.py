@@ -1,8 +1,9 @@
 import os
-import types
 import telebot
 from flask import Flask, request
 import json
+
+from telebot import types
 
 TOKEN = "2003680813:AAHB85TfLFidKVKHZFPEaJQsxa2Nzp_we8Y"
 
