@@ -36,7 +36,7 @@ def bot_message(message):
         if message.text == 'Викторина':
             try:
                 json_res = json.loads('https://jservice.io/api/random?count=1')
-                bot.send_message(message.from_user.id, str(json_res))
+                bot.send_message(message.from_user.id, str(json_res[0]))
             except Exception as ex:
                 print(ex)
         # if message.text == 'привет!':
