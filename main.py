@@ -16,9 +16,12 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    pic = open('welcome.tgs', 'rb')
-    bot.send_photo(message.chat.id, pic)
-    bot.send_message(message.from_user.id, "✋ Добро пожаловать!")
+    try:
+        pic = open('welcome.tgs', 'rb')
+        bot.send_photo(message.chat.id, pic)
+        bot.send_message(message.from_user.id, "✋ Добро пожаловать!")
+    except Exception as ex:
+        print(ex)
 
 
 @bot.message_handler(content_types=['text'])
