@@ -24,7 +24,7 @@ def start(message):
         item1 = types.KeyboardButton('Викторина')
         item2 = types.KeyboardButton('Числа')
         markup.add(item1, item2)
-        bot.send_message(message.chat.id, f'Привет! <b> {message.from_user} </b>'
+        bot.send_message(message.chat.id, f'Привет! <b> {message.from_user.id} </b>'
                          , parse_mode='html', reply_markup=markup)
     except Exception as ex:
         print(ex)
@@ -34,8 +34,11 @@ def start(message):
 def bot_message(message):
     if message.chat.type == 'private':
         if message.text == 'Викторина':
-            json_res = json.loads('https://jservice.io/api/random?count=1')
-            bot.send_message(message.from_user.id, json_res["question"])
+            try:
+                json_res = json.loads('https://jservice.io/api/random?count=1')
+                bot.send_message(message.from_user.id, json_res["question"])
+            except Exception as ex:
+                print(ex)
         # if message.text == 'привет!':
         #     bot.send_message(message.from_user.id, 'Здаров!')
         # else:
