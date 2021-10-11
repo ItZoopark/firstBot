@@ -16,7 +16,7 @@ server = Flask(__name__)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    pic = open('welcome.jpeg', 'rb')
+    pic = open('welcome.tgs', 'rb')
     bot.send_photo(message.chat.id, pic)
     bot.send_message(message.from_user.id, "✋ Добро пожаловать!")
 
