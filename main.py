@@ -13,8 +13,9 @@ server = Flask(__name__)
 @bot.message_handler(commands=['start'])
 def start(message):
     try:
-        pic = open('welcome.gif', 'rb')
-        bot.send_photo(message.chat.id, pic)
+        # pic = open('welcome.jpeg', 'rb')
+        pic = open('welcome.tgs', 'rb')
+        bot.send_sticker(message.chat.id, pic)
         bot.send_message(message.from_user.id, "✋ Добро пожаловать!")
     except Exception as ex:
         print(ex)
