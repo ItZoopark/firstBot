@@ -1,5 +1,4 @@
 import os
-
 import telebot
 from flask import Flask, request
 import json
@@ -11,13 +10,10 @@ APP_URL = f"https://test-itdop-bot2021.herokuapp.com/{TOKEN}"
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
-
-# вапвп
-
 @bot.message_handler(commands=['start'])
 def start(message):
     try:
-        pic = open('welcome.tgs', 'rb')
+        pic = open('welcome.gif', 'rb')
         bot.send_photo(message.chat.id, pic)
         bot.send_message(message.from_user.id, "✋ Добро пожаловать!")
     except Exception as ex:
