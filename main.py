@@ -42,8 +42,8 @@ def bot_message(message):
                 json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
                 json_res = json.loads(json_str)
                 print(json_res)
-                print("question: " + json_res['question'])
-                print("answer: " + json_res['answer'])
+                print("question: " + json_res[0]['question'])
+                print("answer: " + json_res[0]['answer'])
                 # json_res = json.loads(json_dump)
                 # bot.send_message(message.from_user.id, json_res[0])
             except Exception as ex:
