@@ -51,7 +51,7 @@ def bot_message(message):
         elif message.text == 'Числа':
             try:
                 response = requests.get('http://numbersapi.com/11/trivia')
-                data = str(response)
+                data = str(response.text)
                 bot.send_message(message.from_user.id, data)
             except Exception as ex:
                 print(ex)
