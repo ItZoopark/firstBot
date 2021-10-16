@@ -41,6 +41,7 @@ def bot_message(message):
                 response = requests.get('https://jservice.io/api/random?count=1')
                 # json_res = json.loads(response.json().replace("\'", "\""))
                 json_str = str(response.json()).replace("\'", "\"")
+                print(json_str)
                 json_res = json.loads(json_str)
                 print(json_res)
                 print(type(json_res))
