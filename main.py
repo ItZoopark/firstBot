@@ -46,6 +46,7 @@ def bot_message(message):
                     json_res = json.loads(json_str)
                     question = json_res[0]["question"]
                     correct_answer = json_res[0]["answer"]
+                    print("correct answer ----->>>>>" + correct_answer)
                     bot.send_message(message.from_user.id, question)
                     bot.send_message(message.from_user.id, "Введите ответ:")
                     bot.register_next_step_handler(message, checkAnswer)
