@@ -2,7 +2,6 @@ import os
 import telebot
 from flask import Flask, request
 import json
-import requests
 from telebot import types
 
 TOKEN = "2003680813:AAHB85TfLFidKVKHZFPEaJQsxa2Nzp_we8Y"
@@ -38,63 +37,11 @@ def bot_message(message):
     global typeNum
     if message.chat.type == 'private':
         if message.text == 'Викторина':
-            while True:
-                try:
-                    response = requests.get('https://jservice.io/api/random?count=1')
-                    json_str = str(response.json()).replace("\"", "_").replace("\'", "\"").replace("_", "\'").replace(
-                        'None', 'null')
-                    print(json_str)
-                    json_res = json.loads(json_str)
-                    print("question: " + json_res[0]['question'])
-                    print("answer: " + json_res[0]['answer'])
-                    # json_res = json.loads(json_dump)
-                    bot.send_message(message.from_user.id, json_res[0]['question'])
-                    break
-                except Exception as ex:
-                    print(ex)
-        elif message.text == 'Числа':
-            bot.send_message(message.from_user.id, "Выберите раздел")
-            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = types.KeyboardButton('Математика')
-            item2 = types.KeyboardButton('Год')
-            item3 = types.KeyboardButton('Дата')
-            item4 = types.KeyboardButton('Факт')
-            back = types.KeyboardButton('◀️ Назад')
-            markup.add(item1, item2, item3, item4, back)
-            bot.send_message(message.chat.id, 'Числа', reply_markup=markup)
-        elif message.text == 'Математика':
-            typeNum = 'math'
-            bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
-            bot.register_next_step_handler(message, getNumberInfo)
-        elif message.text == 'Год':
-            typeNum = 'year'
-            bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
-            bot.register_next_step_handler(message, getNumberInfo)
-        elif message.text == 'Дата':
-            typeNum = 'date'
-            bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
-            bot.register_next_step_handler(message, getNumberInfo)
-        elif message.text == 'Факт':
-            typeNum = 'trivia'
-            bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
-            bot.register_next_step_handler(message, getNumberInfo)
-        elif message.text == '◀️ Назад':
-            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
-            item1 = types.KeyboardButton('Викторина')
-            item2 = types.KeyboardButton('Числа')
-            markup.add(item1, item2)
-            bot.send_message(message.chat.id, '◀️ Назад', reply_markup=markup)
+            try:
+                json_res = json.loads('https://jservice.io/api/random?count=1')
+            except Exception as ex:
+                print(ex)
 
-
-def getNumberInfo(message):
-    try:
-        num = int(message.text)
-        response = requests.get(f'http://numbersapi.com/{num}/{typeNum}')
-        data = str(response.text)
-        bot.send_message(message.from_user.id, data)
-    except Exception as ex:
-        bot.send_message(message.from_user.id, "Неккореткный ввод...")
-        print(ex)
 
 
 @server.route('/' + TOKEN, methods=['POST'])
