@@ -39,16 +39,18 @@ def bot_message(message):
     global typeNum
     if message.chat.type == 'private':
         if message.text == 'Викторина':
-            try:
-                response = requests.get('https://jservice.io/api/random?count=1')
-                json_str = str(response.json()).replace("\"", "_").replace("\'", "\"")\
-                    .replace("_", "\'").replace('None', 'null')
-                json_res = json.loads(json_str)
-                question = json_res[0]["question"]
-                bot.send_message(message.from_user.id, question)
-                # json_res = json.loads()
-            except Exception as ex:
-                print(ex)
+            while True:
+                try:
+                    response = requests.get('https://jservice.io/api/random?count=1')
+                    json_str = str(response.json()).replace("\"", "_").replace("\'", "\"")\
+                        .replace("_", "\'").replace('None', 'null')
+                    json_res = json.loads(json_str)
+                    question = json_res[0]["question"]
+                    bot.send_message(message.from_user.id, question)
+                    break
+                    # json_res = json.loads()
+                except Exception as ex:
+                    print(ex)
 
 
 
