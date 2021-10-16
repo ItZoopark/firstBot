@@ -13,8 +13,7 @@ APP_URL = f"https://test-itdop-bot2021.herokuapp.com/{TOKEN}"
 bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
-typeNum = ''
-
+correct_answer = ''
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -36,7 +35,7 @@ def start(message):
 
 @bot.message_handler(content_types=['text'])
 def bot_message(message):
-    global typeNum
+    global correct_answer
     if message.chat.type == 'private':
         if message.text == 'Викторина':
             while True:
@@ -46,12 +45,22 @@ def bot_message(message):
                         .replace("_", "\'").replace('None', 'null')
                     json_res = json.loads(json_str)
                     question = json_res[0]["question"]
+                    correct_answer = json_res[0]["answer"]
                     bot.send_message(message.from_user.id, question)
+                    bot.send_message(message.from_user.id, "Введите ответ:")
+                    bot.register_next_step_handler(message, checkAnswer)
                     break
                     # json_res = json.loads()
                 except Exception as ex:
                     print(ex)
 
+
+def checkAnswer(message):
+    user_answer = message.text
+    if user_answer == correct_answer:
+        bot.send_message(message.from_user.id, "Правильно!")
+    else:
+        bot.send_message(message.from_user.id, "Не верно!")
 
 
 @server.route('/' + TOKEN, methods=['POST'])
