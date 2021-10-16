@@ -66,22 +66,18 @@ def bot_message(message):
             typeNum = 'math'
             bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
             bot.register_next_step_handler(message, getNumberInfo)
-            getNumberInfo(message)
         elif message.text == 'Год':
             typeNum = 'year'
             bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
             bot.register_next_step_handler(message, getNumberInfo)
-            getNumberInfo(message)
         elif message.text == 'Дата':
             typeNum = 'date'
             bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
             bot.register_next_step_handler(message, getNumberInfo)
-            getNumberInfo(message)
         elif message.text == 'Факт':
             typeNum = 'trivia'
             bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
             bot.register_next_step_handler(message, getNumberInfo)
-            getNumberInfo(message)
         elif message.text == '◀️ Назад':
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
             item1 = types.KeyboardButton('Викторина')
