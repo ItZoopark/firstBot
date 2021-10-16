@@ -1,4 +1,6 @@
 import os
+
+import requests
 import telebot
 from flask import Flask, request
 import json
@@ -38,7 +40,9 @@ def bot_message(message):
     if message.chat.type == 'private':
         if message.text == 'Викторина':
             try:
-                json_res = json.loads('https://jservice.io/api/random?count=1')
+                response = requests.get('https://jservice.io/api/random?count=1')
+                print(str(response.json()))
+                # json_res = json.loads()
             except Exception as ex:
                 print(ex)
 
