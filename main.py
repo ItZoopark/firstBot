@@ -45,7 +45,7 @@ def bot_message(message):
                 print("question: " + json_res[0]['question'])
                 print("answer: " + json_res[0]['answer'])
                 # json_res = json.loads(json_dump)
-                # bot.send_message(message.from_user.id, json_res[0])
+                bot.send_message(message.from_user.id, json_res[0]['question'])
             except Exception as ex:
                 print(ex)
         # if message.text == 'привет!':
