@@ -39,7 +39,6 @@ def bot_message(message):
                 # json_dump = json.dumps(
                 #     '[{"id":88055,"answer":"10","question":"Bo Derek probably knows diamonds rate this on the Mohs scale, which measures hardness","value":200,"airdate":"2009-07-06T12:00:00.000Z","created_at":"2014-02-14T01:53:42.801Z","updated_at":"2014-02-14T01:53:42.801Z","category_id":3953,"game_id":null,"invalid_count":null,"category":{"id":3953,"title":"diamonds are forever","created_at":"2014-02-11T23:05:51.795Z","updated_at":"2014-02-11T23:05:51.795Z","clues_count":15}}]')
                 response = requests.get('https://jservice.io/api/random?count=1')
-                # json_res = json.loads(response.json().replace("\'", "\""))
                 json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
                 print(json_str)
                 json_res = json.loads(json_str)
