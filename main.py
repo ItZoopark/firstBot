@@ -65,7 +65,7 @@ def bot_message(message):
             item4 = types.KeyboardButton('Факт')
             back = types.KeyboardButton('◀️ Назад')
             markup.add(item1, item2, item3, item4, back)
-            bot.send_message(message.chat.id, '', reply_markup=markup)
+            bot.send_message(message.chat.id, 'Числа', reply_markup=markup)
         elif message.text == 'Математика':
             typeNum = 'math'
             bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
