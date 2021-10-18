@@ -74,6 +74,12 @@ def bot_message(message):
             typeNum = 'trivia'
             bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
             bot.register_next_step_handler(message, getNumberInfo)
+        elif message.text == '◀️ Назад':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            item1 = types.KeyboardButton('Викторина')
+            item2 = types.KeyboardButton('Числа')
+            markup.add(item1, item2)
+            bot.send_message(message.chat.id, '◀️ Назад', reply_markup=markup)
 
 
 def getNumberInfo(message):
