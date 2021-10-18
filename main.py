@@ -53,7 +53,7 @@ def bot_message(message):
                     bot.send_message(message.from_user.id, "Введите ответ:")
                     bot.register_next_step_handler(message, checkAnswer)
                     break
-                    # json_res = json.loads()
+
                 except Exception as ex:
                     print(ex)
         elif message.text == 'Числа':
