@@ -14,6 +14,7 @@ bot = telebot.TeleBot(TOKEN)
 server = Flask(__name__)
 
 correct_answer = ''
+typeNum = ''
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -36,6 +37,7 @@ def start(message):
 @bot.message_handler(content_types=['text'])
 def bot_message(message):
     global correct_answer
+    global typeNum
     if message.chat.type == 'private':
         if message.text == 'Викторина':
             while True:
@@ -54,6 +56,36 @@ def bot_message(message):
                     # json_res = json.loads()
                 except Exception as ex:
                     print(ex)
+        elif message.text == 'Числа':
+            bot.send_message(message.from_user.id, "Выберите раздел")
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            item1 = types.KeyboardButton('Математика')
+            item2 = types.KeyboardButton('Год')
+            item3 = types.KeyboardButton('Дата')
+            item4 = types.KeyboardButton('Факт')
+            back = types.KeyboardButton('◀️ Назад')
+            markup.add(item1, item2, item3, item4, back)
+            bot.send_message(message.chat.id, '', reply_markup=markup)
+        elif message.text == 'Математика':
+            typeNum = 'math'
+            bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
+            bot.register_next_step_handler(message, getNumberInfo)
+        elif message.text == 'Факт':
+            typeNum = 'trivia'
+            bot.send_message(message.from_user.id, "Напишите число, про которое хотите узнать...")
+            bot.register_next_step_handler(message, getNumberInfo)
+
+
+def getNumberInfo(message):
+    try:
+        if typeNum == 'math' or typeNum == 'trivia':
+            num = int(message.text)
+        response = requests.get(f'http://numbersapi.com/{num}/{typeNum}')
+        data = response.text
+        bot.send_message(message.from_user.id, data)
+    except Exception as ex:
+        bot.send_message(message.from_user.id, "Неккореткный ввод...")
+        print(ex)
 
 
 def checkAnswer(message):
