@@ -24,6 +24,8 @@ cred = credentials.Certificate("schooldopdb-firebase-adminsdk-q1hlv-e154bb7a75.j
 firebase_admin.initialize_app(cred)
 
 
+# изменения
+
 @bot.message_handler(commands=['start'])
 def start(message):
     try:
