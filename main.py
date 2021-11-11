@@ -82,8 +82,11 @@ def bot_message(message):
             bot.send_message(message.from_user.id, "Напишите текст...")
             bot.register_next_step_handler(message, saveInFirebase)
         elif message.text == 'Получить':
-            answer = str(db.reference('schooldopdb-default-rtdb/').get())
-            bot.send_message(message.from_user.id, answer)
+            answer = str(db.reference('schooldopdb-default-rtdb/').get()).replace("\'", "\"")
+            answer_json = json.loads(answer)
+            for answer_id in answer_json:
+                out = str(db.reference(f'schooldopdb-default-rtdb/{answer_id}').get()).replace("\'", "\"")
+                bot.send_message(message.from_user.id, out["message"])
         elif message.text == 'Числа':
             bot.send_message(message.from_user.id, "Выберите раздел")
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
