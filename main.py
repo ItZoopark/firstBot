@@ -1,10 +1,14 @@
 import os
+import uuid
 
 import requests
 import telebot
 from flask import Flask, request
 import json
 from telebot import types
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import db
 
 TOKEN = "2003680813:AAHB85TfLFidKVKHZFPEaJQsxa2Nzp_we8Y"
 
@@ -15,6 +19,10 @@ server = Flask(__name__)
 
 correct_answer = ''
 typeNum = ''
+
+cred = credentials.Certificate("schooldopdb-firebase-adminsdk-q1hlv-e154bb7a75.json")
+firebase_admin.initialize_app(cred)
+
 
 @bot.message_handler(commands=['start'])
 def start(message):
@@ -27,7 +35,8 @@ def start(message):
         markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
         item1 = types.KeyboardButton('Викторина')
         item2 = types.KeyboardButton('Числа')
-        markup.add(item1, item2)
+        item3 = types.KeyboardButton('БД')
+        markup.add(item1, item2, item3)
         bot.send_message(message.chat.id, f'Привет! <b> {message.from_user.id} </b>'
                          , parse_mode='html', reply_markup=markup)
     except Exception as ex:
@@ -43,7 +52,7 @@ def bot_message(message):
             while True:
                 try:
                     response = requests.get('https://jservice.io/api/random?count=1')
-                    json_str = str(response.json()).replace("\"", "_").replace("\'", "\"")\
+                    json_str = str(response.json()).replace("\"", "_").replace("\'", "\"") \
                         .replace("_", "\'").replace('None', 'null')
                     json_res = json.loads(json_str)
                     question = json_res[0]["question"]
@@ -56,6 +65,18 @@ def bot_message(message):
 
                 except Exception as ex:
                     print(ex)
+
+        elif message.text == 'БД':
+            bot.send_message(message.from_user.id, "Выберите раздел")
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            item1 = types.KeyboardButton('Отправить')
+            item2 = types.KeyboardButton('Получить')
+            back = types.KeyboardButton('◀️ Назад')
+            markup.add(item1, item2, back)
+            bot.send_message(message.chat.id, 'Работа с БД', reply_markup=markup)
+        elif message.text == 'Отправить':
+            bot.send_message(message.from_user.id, "Напишите текст...")
+            bot.register_next_step_handler(message, saveInFirebase)
         elif message.text == 'Числа':
             bot.send_message(message.from_user.id, "Выберите раздел")
             markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
@@ -80,6 +101,15 @@ def bot_message(message):
             item2 = types.KeyboardButton('Числа')
             markup.add(item1, item2)
             bot.send_message(message.chat.id, '◀️ Назад', reply_markup=markup)
+
+
+def saveInFirebase(message):
+    message_id = uuid.uuid4().hex
+    new_message = {
+        "message": message
+    }
+    db.reference('https://schooldopdb-default-rtdb.europe-west1.firebasedatabase.app/' + message_id).set(new_message)
+    bot.send_message(message.from_user.id, "Данные сохранены!")
 
 
 def getNumberInfo(message):
