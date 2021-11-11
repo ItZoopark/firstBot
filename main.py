@@ -109,9 +109,9 @@ def saveInFirebase(message):
     try:
         message_id = uuid.uuid4().hex
         new_message = {
-            "message": message
+            "message": str(message.text)
         }
-        db.reference('https://schooldopdb-default-rtdb.europe-west1.firebasedatabase.app/' + message_id).set(new_message)
+        db.reference('schooldopdb-default-rtdb/' + message_id).set(new_message)
         bot.send_message(message.from_user.id, "Данные сохранены!")
     except Exception as ex:
         print(ex)
