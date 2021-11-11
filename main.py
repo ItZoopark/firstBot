@@ -21,7 +21,9 @@ correct_answer = ''
 typeNum = ''
 
 cred = credentials.Certificate("schooldopdb-firebase-adminsdk-q1hlv-e154bb7a75.json")
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred, {
+    'databaseURL': 'https://schooldopdb-default-rtdb.europe-west1.firebasedatabase.app/'
+})
 
 
 # изменения
