@@ -151,9 +151,10 @@ def createStudent(message):
     print(letter)
     response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/grade_id/?num={num}&letter={letter}')
     response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
-    print(response_json_str)
-    # json_res = json.loads(response_json_str)
-    # grade_id = json_res["id"]
+    # print(response_json_str)
+    json_res = json.loads(response_json_str)
+    grade_id = json_res["id"]
+    print(grade_id)
     # response = requests.post('https://school-estimate-django-rest.herokuapp.com/api/v1/student/',
     #                          data={'name': fio, 'userId': userId, 'grade': grade_id})
 
