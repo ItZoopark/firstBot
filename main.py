@@ -141,16 +141,16 @@ def saveInFirebase(message):
 
 
 def createStudent(message):
-    data = str(message.text).split(' ')
-    fio = data[0] + " " + data[1]
-    userId = data[2]
-    num = data[3]
-    letter = data[4]
-    print(fio)
-    print(userId)
-    print(num)
-    print(letter)
     try:
+        data = str(message.text).split(' ')
+        fio = data[0] + " " + data[1]
+        userId = data[2]
+        num = data[3]
+        letter = data[4]
+        print(fio)
+        print(userId)
+        print(num)
+        print(letter)
         response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/grade_id/?num={num}&letter={letter}')
         response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
         # print(response_json_str)
