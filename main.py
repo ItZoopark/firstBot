@@ -57,8 +57,14 @@ def bot_message(message):
             item1 = types.KeyboardButton('Создать пользователя')
             item2 = types.KeyboardButton('Назначить вопросы')
             item3 = types.KeyboardButton('Получить результаты')
-            markup.add(item1, item2, item3)
+            item4 = types.KeyboardButton('Создать тему')
+            item5 = types.KeyboardButton('Создать вопросы')
+            markup.add(item1, item2, item3, item4, item5)
             bot.send_message(message.chat.id, 'Добро пожаловать в Админ панель!', reply_markup=markup)
+
+        elif message.text == 'Создать тему':
+            bot.send_message(message.from_user.id, "Введите тему")
+            bot.register_next_step_handler(message, createTheme)
         elif message.text == 'Создать пользователя':
             bot.send_message(message.from_user.id, "Введите данные ученика в следующем формате через пробел\n"
                                                    "<b>[Фамилия] [Имя] [userId] [класс] [букву]</b>", parse_mode='html')
@@ -140,6 +146,17 @@ def saveInFirebase(message):
         print(ex)
 
 
+def createTheme(message):
+    try:
+        theme = str(message.text)
+        response = requests.post("https://school-estimate-django-rest.herokuapp.com/api/v1/theme/", data={'name': theme})
+        print(response)
+        print(response.status_code)
+    except Exception as ex:
+        print(ex)
+        bot.send_message(message.from_user.id, "Что то пошло не так o_O!")
+
+
 def createStudent(message):
     try:
         data = str(message.text).split(' ')
@@ -151,7 +168,8 @@ def createStudent(message):
         print(userId)
         print(num)
         print(letter)
-        response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/grade_id/?num={num}&letter={letter}')
+        response = requests.get(
+            f'https://school-estimate-django-rest.herokuapp.com/api/v1/grade_id/?num={num}&letter={letter}')
         response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
         # print(response_json_str)
         json_res = json.loads(response_json_str)
