@@ -71,9 +71,10 @@ def bot_message(message):
             response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
             json_res = json.loads(response_json_str)
 
+            print(json_res)
             try:
                 for i in len(json_res):
-                    print(json_res[0][i])
+                    print(json_res[i])
             except Exception as ex:
                 print(ex)
             # for key, value in json_res.items():
