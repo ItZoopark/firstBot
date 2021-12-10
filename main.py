@@ -70,10 +70,11 @@ def bot_message(message):
             response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/themes/')
             response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
             json_res = json.loads(response_json_str)
-            print(json_res)
+
             try:
-                print(len(json_res[0]))
-                print(json_res.items())
+                print(len(json_res))
+                print(dict(json_res))
+                print(dict(json_res).items())
             except Exception as ex:
                 print(ex)
             # for key, value in json_res.items():
