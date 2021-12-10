@@ -74,9 +74,8 @@ def bot_message(message):
             print(json_res)
             print(len(json_res))
             try:
-                for i in len(json_res):
-                    print(i)
-                #     print(json_res[i])
+                for i in range(len(json_res)):
+                    print(json_res[i])
             except Exception as ex:
                 print(ex)
             # for key, value in json_res.items():
