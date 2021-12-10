@@ -60,7 +60,8 @@ def bot_message(message):
             markup.add(item1, item2, item3)
             bot.send_message(message.chat.id, 'Добро пожаловать в Админ панель!', reply_markup=markup)
         elif message.text == 'Создать пользователя':
-            bot.send_message(message.from_user.id, "введите ФИО, userId, класс и букву")
+            bot.send_message(message.from_user.id, "Введите данные ученика в следующем формате через пробел "
+                                                   "[Фамилия] [Имя] [userId] [класс] [букву]")
             bot.register_next_step_handler(message, createStudent)
         elif message.text == 'Викторина':
             while True:
@@ -141,7 +142,7 @@ def saveInFirebase(message):
 
 def createStudent(message):
     data = str(message.text).split(' ')
-    fio = data[0] + data[1]
+    fio = data[0] + " " + data[1]
     userId = data[2]
     num = data[3]
     letter = data[4]
@@ -158,6 +159,7 @@ def createStudent(message):
                              data={'name': fio, 'userId': userId, 'grade': grade_id})
     print(response)
     print(response.status_code)
+    bot.send_message(message.from_user.id, "Ученик создан!")
 
 
 def getNumberInfo(message):
