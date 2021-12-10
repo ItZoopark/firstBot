@@ -73,8 +73,11 @@ def bot_message(message):
 
             print(json_res)
             try:
+                print(json_res[0][0])
+                print(json_res[0]['name'])
                 for i in len(json_res):
-                    print(json_res[i])
+                    print(i)
+                #     print(json_res[i])
             except Exception as ex:
                 print(ex)
             # for key, value in json_res.items():
