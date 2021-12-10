@@ -72,9 +72,8 @@ def bot_message(message):
             json_res = json.loads(response_json_str)
 
             print(json_res)
+            print(len(json_res))
             try:
-                print(json_res[0][0])
-                print(json_res[0]['name'])
                 for i in len(json_res):
                     print(i)
                 #     print(json_res[i])
