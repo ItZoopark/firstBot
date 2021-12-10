@@ -70,10 +70,10 @@ def bot_message(message):
             response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/themes/')
             response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
             json_res = json.loads(response_json_str)
-            # print(json_res)
+            print(json_res)
             print()
-            for key, value in json_res.items():
-                print(f"{key} -> {value}")
+            # for key, value in json_res.items():
+            #     print(f"{key} -> {value}")
                 # if key == 'name':
                 #     bot.send_message(message.from_user.id, value)
 
