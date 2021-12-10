@@ -52,7 +52,17 @@ def bot_message(message):
     global correct_answer
     global typeNum
     if message.chat.type == 'private':
-        if message.text == 'Викторина':
+        if message.text == 'teacher':
+            markup = types.ReplyKeyboardMarkup(resize_keyboard=True)
+            item1 = types.KeyboardButton('Создать пользователя')
+            item2 = types.KeyboardButton('Назначить вопросы')
+            item3 = types.KeyboardButton('Получить результаты')
+            markup.add(item1, item2, item3)
+            bot.send_message(message.chat.id, 'Добро пожаловать в Админ панель!', reply_markup=markup)
+        elif message.text == 'Создать пользователя':
+            bot.send_message(message.from_user.id, "введите ФИО, userId, класс и букву")
+            bot.register_next_step_handler(message, createStudent)
+        elif message.text == 'Викторина':
             while True:
                 try:
                     response = requests.get('https://jservice.io/api/random?count=1')
@@ -127,6 +137,21 @@ def saveInFirebase(message):
         bot.send_message(message.from_user.id, "Данные сохранены!")
     except Exception as ex:
         print(ex)
+
+
+def createStudent(message):
+    data = str(message).split(' ')
+    fio = data[0] + data[1]
+    userId = data[2]
+    num = data[3]
+    letter = data[4]
+    response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/?num={num}&letter={letter}')
+    response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
+    print(response_json_str)
+    # json_res = json.loads(response_json_str)
+    # grade_id = json_res["id"]
+    # response = requests.post('https://school-estimate-django-rest.herokuapp.com/api/v1/student/',
+    #                          data={'name': fio, 'userId': userId, 'grade': grade_id})
 
 
 def getNumberInfo(message):
