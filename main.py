@@ -65,6 +65,16 @@ def bot_message(message):
         elif message.text == 'Создать тему':
             bot.send_message(message.from_user.id, "Введите тему")
             bot.register_next_step_handler(message, createTheme)
+        elif message.text == 'Создать вопросы':
+            bot.send_message(message.from_user.id, "Выберите тему")
+            response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/themes/')
+            response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
+            json_res = json.loads(response_json_str)
+
+            for key, value in json_res.items():
+                if key == 'name':
+                    bot.send_message(message.from_user.id, value)
+
         elif message.text == 'Создать пользователя':
             bot.send_message(message.from_user.id, "Введите данные ученика в следующем формате через пробел\n"
                                                    "<b>[Фамилия] [Имя] [userId] [класс] [букву]</b>", parse_mode='html')
@@ -149,12 +159,14 @@ def saveInFirebase(message):
 def createTheme(message):
     try:
         theme = str(message.text)
-        response = requests.post("https://school-estimate-django-rest.herokuapp.com/api/v1/theme/", data={'name': theme})
+        response = requests.post("https://school-estimate-django-rest.herokuapp.com/api/v1/theme/",
+                                 data={'name': theme})
         print(response)
         print(response.status_code)
+        bot.send_message(message.from_user.id, "Тема создана!")
     except Exception as ex:
         print(ex)
-        bot.send_message(message.from_user.id, "Что то пошло не так o_O!")
+        bot.send_message(message.from_user.id, "Что-то пошло не так o_O!")
 
 
 def createStudent(message):
@@ -183,6 +195,22 @@ def createStudent(message):
         print(ex)
         bot.send_message(message.from_user.id, "Некорректные данные!")
 
+
+# def show_task():
+#     keyboard = types.InlineKeyboardMarkup()
+#     key_select = types.InlineKeyboardButton(text='Выбрать', callback_data='yes')
+#     keyboard.add(key_select)
+#
+#
+# @bot.callback_query_handler(func=lambda call: True)
+# def callback_worker(call):
+#     if call.data == 'select':
+#         bot.send_message(call.message.chat.id, "Введите вопрос =>")
+#         bot.register_next_step_handler(call.message, save_question)
+#
+#
+# def save_question(message):
+#     # message.text
 
 def getNumberInfo(message):
     try:
