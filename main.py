@@ -60,7 +60,7 @@ def bot_message(message):
             markup.add(item1, item2, item3)
             bot.send_message(message.chat.id, 'Добро пожаловать в Админ панель!', reply_markup=markup)
         elif message.text == 'Создать пользователя':
-            bot.send_message(message.from_user.id, "Введите данные ученика в следующем формате через пробел "
+            bot.send_message(message.from_user.id, "Введите данные ученика в следующем формате через пробел\n"
                                                    "[Фамилия] [Имя] [userId] [класс] [букву]")
             bot.register_next_step_handler(message, createStudent)
         elif message.text == 'Викторина':
