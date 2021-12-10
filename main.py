@@ -75,7 +75,9 @@ def bot_message(message):
             print(len(json_res))
             try:
                 for i in range(len(json_res)):
-                    print(json_res[i])
+                    info = json_res[i]
+                    print(info['id'], info['name'])
+                    bot.send_message(message.from_user.id, f"{info['id']} {info['name']}")
             except Exception as ex:
                 print(ex)
             # for key, value in json_res.items():
