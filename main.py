@@ -140,8 +140,8 @@ def saveInFirebase(message):
 
 
 def createStudent(message):
-    data = str(message).split(' ')
-    print(data)
+    # data = str(message).split(' ')
+    print(str(message))
     # fio = data[0] + data[1]
     # userId = data[2]
     # num = data[3]
