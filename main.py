@@ -61,7 +61,7 @@ def bot_message(message):
             bot.send_message(message.chat.id, 'Добро пожаловать в Админ панель!', reply_markup=markup)
         elif message.text == 'Создать пользователя':
             bot.send_message(message.from_user.id, "Введите данные ученика в следующем формате через пробел\n"
-                                                   "[Фамилия] [Имя] [userId] [класс] [букву]")
+                                                   "<b>[Фамилия] [Имя] [userId] [класс] [букву]</b>", parse_mode='html')
             bot.register_next_step_handler(message, createStudent)
         elif message.text == 'Викторина':
             while True:
@@ -150,16 +150,20 @@ def createStudent(message):
     print(userId)
     print(num)
     print(letter)
-    response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/grade_id/?num={num}&letter={letter}')
-    response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
-    # print(response_json_str)
-    json_res = json.loads(response_json_str)
-    grade_id = json_res["id"]
-    response = requests.post('https://school-estimate-django-rest.herokuapp.com/api/v1/student/',
-                             data={'name': fio, 'userId': userId, 'grade': grade_id})
-    print(response)
-    print(response.status_code)
-    bot.send_message(message.from_user.id, "Ученик создан!")
+    try:
+        response = requests.get(f'https://school-estimate-django-rest.herokuapp.com/api/v1/grade_id/?num={num}&letter={letter}')
+        response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
+        # print(response_json_str)
+        json_res = json.loads(response_json_str)
+        grade_id = json_res["id"]
+        response = requests.post('https://school-estimate-django-rest.herokuapp.com/api/v1/student/',
+                                 data={'name': fio, 'userId': userId, 'grade': grade_id})
+        print(response)
+        print(response.status_code)
+        bot.send_message(message.from_user.id, "Ученик создан!")
+    except Exception as ex:
+        print(ex)
+        bot.send_message(message.from_user.id, "Некорректные данные!")
 
 
 def getNumberInfo(message):
