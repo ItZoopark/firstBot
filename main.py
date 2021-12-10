@@ -71,7 +71,8 @@ def bot_message(message):
             response_json_str = str(response.json()).replace("\'", "\"").replace('None', 'null')
             json_res = json.loads(response_json_str)
             print(json_res)
-            print()
+            print(json_res.items())
+            print(len(json_res[0]))
             # for key, value in json_res.items():
             #     print(f"{key} -> {value}")
                 # if key == 'name':
